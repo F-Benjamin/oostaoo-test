@@ -1,44 +1,45 @@
+import React from "react";
 import { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import LinearProgress from "@mui/material/LinearProgress";
 import DialogTitle from "@mui/material/DialogTitle";
-import Card from "./Card/card";
+import Card from "./components/Card/card";
 import "./App.scss";
 
 const uniqueElementsArray = [
   {
     type: "amazon",
-    image: require(`./Images/amazon.jpg`),
+    image: require("./Images/amazon.jpg"),
   },
   {
     type: "apple",
-    image: require(`./Images/apple.jpg`),
+    image: require("./Images/apple.jpg"),
   },
   {
     type: "facebook",
-    image: require(`./Images/facebook.jpg`),
+    image: require("./Images/facebook.jpg"),
   },
   {
     type: "instagram",
-    image: require(`./Images/insta.jpg`),
+    image: require("./Images/insta.jpg"),
   },
   {
     type: "netflix",
-    image: require(`./Images/netflix.jpg`),
+    image: require("./Images/netflix.jpg"),
   },
   {
     type: "tiktok",
-    image: require(`./Images/tiktok.jpg`),
+    image: require("./Images/tiktok.jpg"),
   },
   {
     type: "twitter",
-    image: require(`./Images/twitter.jpg`),
+    image: require("./Images/twitter.jpg"),
   },
   {
     type: "youtube",
-    image: require(`./Images/youtube.jpg`),
+    image: require("./Images/youtube.jpg"),
   },
 ];
 // récupère le tableau, boucle sur l'index et renvoie un nouvelle index modifier pour que les images soit affiché aléatoirement
@@ -79,7 +80,7 @@ export default function App() {
     // On stock les cartes trouvées dans un objet car plus simple d'utilisation qu'un tableau
     if (
       Object.keys(clearedCards).length === uniqueElementsArray.length ||
-      progress === 100
+      progress >= 100
     ) {
       setShowModal(true);
       setIsStart(false);
@@ -91,6 +92,7 @@ export default function App() {
     const [first, second] = openCards;
     enable();
     if (cards[first].type === cards[second].type) {
+      // passe le type de la carte a true pour que la fonctionne isActive fonctionne et change la classe de la carte
       setClearedCards((prev) => ({ ...prev, [cards[first].type]: true }));
       setOpenCards([]);
       return;
@@ -120,7 +122,7 @@ export default function App() {
     let interval = null;
     if (isStart === true) {
       interval = setInterval(() => {
-        setProgress((progress) => progress + 4);
+        setProgress((progress) => progress + 2);
       }, 1000);
     } else {
       clearInterval(interval);

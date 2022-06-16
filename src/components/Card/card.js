@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import "../Card/card.scss";
+import "./card.scss";
 
 const Card = ({ onClick, card, index, isInactive, isFlipped, isDisabled }) => {
   const handleClick = () => {
