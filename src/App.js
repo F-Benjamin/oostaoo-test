@@ -1,45 +1,48 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
+import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import LinearProgress from "@mui/material/LinearProgress";
-import DialogTitle from "@mui/material/DialogTitle";
 import Card from "./components/Card/card";
 import "./App.scss";
+
+import Moves from "./components/Moves/moves";
+export const UserMoves = React.createContext();
 
 const uniqueElementsArray = [
   {
     type: "amazon",
-    image: require("./Images/amazon.jpg"),
+    image: require("./assets/Images/amazon.jpg"),
   },
   {
     type: "apple",
-    image: require("./Images/apple.jpg"),
+    image: require("./assets/Images/apple.jpg"),
   },
   {
     type: "facebook",
-    image: require("./Images/facebook.jpg"),
+    image: require("./assets/Images/facebook.jpg"),
   },
   {
     type: "instagram",
-    image: require("./Images/insta.jpg"),
+    image: require("./assets/Images/insta.jpg"),
   },
   {
     type: "netflix",
-    image: require("./Images/netflix.jpg"),
+    image: require("./assets/Images/netflix.jpg"),
   },
   {
     type: "tiktok",
-    image: require("./Images/tiktok.jpg"),
+    image: require("./assets/Images/tiktok.jpg"),
   },
   {
     type: "twitter",
-    image: require("./Images/twitter.jpg"),
+    image: require("./assets/Images/twitter.jpg"),
   },
   {
     type: "youtube",
-    image: require("./Images/youtube.jpg"),
+    image: require("./assets/Images/youtube.jpg"),
   },
 ];
 // récupère le tableau, boucle sur l'index et renvoie un nouvelle index modifier pour que les images soit affiché aléatoirement
@@ -169,51 +172,55 @@ export default function App() {
   };
   return (
     <div className="App">
-      <header>
-        <h3>Memory game</h3>
-      </header>
-      <div className="container">
-        {cards.map((card, index) => {
-          return (
-            <Card
-              key={index}
-              card={card}
-              index={index}
-              isDisabled={shouldDisableAllCards}
-              isInactive={checkIsInactive(card)}
-              isFlipped={checkIsFlipped(index)}
-              onClick={handleCardClick}
-            />
-          );
-        })}
-      </div>
-      <footer>
-        <LinearProgress variant="determinate" value={progress} />
-      </footer>
-      <Dialog
-        open={showModal}
-        disablebackdropclick
-        disableEscapeKeyDown
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <div>
-          {progress === 100 ? (
-            <DialogTitle id="alert-dialog-title">
-              Pas assez rapide !
-            </DialogTitle>
-          ) : (
-            <DialogTitle id="alert-dialog-title">
-              Bravo ! Tu as réussis en {moves} coup.
-            </DialogTitle>
-          )}
+      <UserMoves.Provider value={moves}>
+        <header>
+          <h3>Memory game</h3>
+          <div>Cliquez sur une carte pour lancer la partie</div>
+          <Moves />
+        </header>
+        <div className="container">
+          {cards.map((card, index) => {
+            return (
+              <Card
+                key={index}
+                card={card}
+                index={index}
+                isDisabled={shouldDisableAllCards}
+                isInactive={checkIsInactive(card)}
+                isFlipped={checkIsFlipped(index)}
+                onClick={handleCardClick}
+              />
+            );
+          })}
         </div>
-        <DialogActions>
-          <Button onClick={handleRestart} color="primary">
-            Restart
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <footer>
+          <LinearProgress variant="determinate" value={progress} />
+        </footer>
+        <Dialog
+          open={showModal}
+          disablebackdropclick
+          disableEscapeKeyDown
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <div>
+            {progress === 100 ? (
+              <DialogTitle id="alert-dialog-title">
+                Pas assez rapide !
+              </DialogTitle>
+            ) : (
+              <DialogTitle id="alert-dialog-title">
+                Bravo ! Tu as réussis en {moves} coup.
+              </DialogTitle>
+            )}
+          </div>
+          <DialogActions>
+            <Button onClick={handleRestart} color="primary">
+              Restart
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </UserMoves.Provider>
     </div>
   );
 }
